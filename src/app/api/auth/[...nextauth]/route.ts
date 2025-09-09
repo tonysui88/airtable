@@ -7,7 +7,7 @@ import { adapter } from "next/dist/server/web/adapter";
 
 const prisma = new PrismaClient();
 
-export const authOptions = {
+const authOptions = {
     adapter: PrismaAdapter(prisma),
     providers: [
         GoogleProvider({
