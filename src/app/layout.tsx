@@ -3,10 +3,12 @@ import "~/styles/globals.css";
 
 import { type Metadata } from "next";
 import { Geist } from "next/font/google";
-import { SessionProvider } from "next-auth/react";
+import { SessionProvider, useSession } from "next-auth/react";
 
+import { api } from "~/trpc/react";
 import { TRPCReactProvider } from "~/trpc/react";
 import Header from "./_components/Header";
+import Sidebar from "./_components/Sidebar";
 
 // export const metadata: Metadata = {
 //   title: "Create T3 App",
@@ -19,6 +21,20 @@ const geist = Geist({
   variable: "--font-geist-sans",
 });
 
+// function AppShell({ children }: { children: React.ReactNode }) {
+//   const { status } = useSession();
+
+//   return (
+//     <div className="h-screen flex flex-col">
+//       <Header />
+//       <div className="flex flex-1">
+//         {status === "authenticated" && <Sidebar />}
+//         <main className="flex-1">{children}</main>
+//       </div>
+//     </div>
+//   );
+// }
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -26,9 +42,10 @@ export default function RootLayout({
     <html lang="en" className={`${geist.variable}`}>
       <body>
           <SessionProvider>
-            <Header/>
-            {/* <TRPCReactProvider> */}
-              { children }
+            <TRPCReactProvider>
+              <Header/>
+              {children}
+            </TRPCReactProvider>
             {/* </TRPCReactProvider> */}
           </SessionProvider>
       </body>
